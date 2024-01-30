@@ -1,38 +1,32 @@
 from guardrails import Guard
 from pydantic import BaseModel, Field
-from validator import RegexMatch
+from validator import IsValidAddress
 
 
 class ValidatorTestObject(BaseModel):
-    test_val: str = Field(
-        validators=[
-            RegexMatch(regex="a.*", match_type="fullmatch", on_fail="exception")
-        ]
-    )
+    test_val: str = Field(validators=[IsValidAddress(on_fail="exception")])
 
 
-TEST_OUTPUT = """
+TEST_PASS_OUTPUT = """
 {
-  "test_val": "a test value"
+  "test_val": "1 Hacker Way, Menlo Park, CA"
 }
 """
 
 
 guard = Guard.from_pydantic(output_class=ValidatorTestObject)
-
-raw_output, guarded_output, *rest = guard.parse(TEST_OUTPUT)
-
-print("validated output: ", guarded_output)
+raw_output, guarded_output, *rest = guard.parse(TEST_PASS_OUTPUT)
+print("Validated output: ", guarded_output)
 
 
 TEST_FAIL_OUTPUT = """
 {
-"test_val": "b test value"
+"test_val": "300 John Hikle Ave"
 }
 """
 
 try:
-  guard.parse(TEST_FAIL_OUTPUT)
-  print ("Failed to fail validation when it was supposed to")
-except (Exception):
-  print ('Successfully failed validation when it was supposed to')
+    guard.parse(TEST_FAIL_OUTPUT)
+    print("Failed to fail validation when it was supposed to")
+except Exception as e:
+    print("Successfully failed validation when it was supposed to")
