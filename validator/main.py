@@ -107,6 +107,7 @@ class IsValidAddress(Validator):
         # If the address has any unconfirmed components,
         # return a FailResult with NO fix value
         if has_unconfirmed_components:
+            print("Address has unconfirmed components, returning FailResult")
             return FailResult(
                 error_message=f"Address: '{value}' has few unconfirmed and unverified components",
             )
@@ -115,6 +116,10 @@ class IsValidAddress(Validator):
         # If the address has no unconfirmed components, but has
         # important components inferred, return a FailResult
         if is_important_type_inferred:
+            print(
+                "Address has important components inferred, returning FailResult with fix value:",
+                api_response["result"]["address"]["formattedAddress"],
+            )
             return FailResult(
                 error_message=f"Address: '{value}' has important components inferred",
                 fix_value=api_response["result"]["address"]["formattedAddress"],
@@ -124,12 +129,19 @@ class IsValidAddress(Validator):
         # If the address has spelling corrected components,
         # return a FailResult with the corrected address as the fix value
         if is_spell_corrected:
+            print(
+                "Address has spelling corrected components, returning FailResult with fix value:",
+                api_response["result"]["address"]["formattedAddress"],
+            )
             return FailResult(
                 error_message=f"Address: '{value}' has some typos",
                 fix_value=api_response["result"]["address"]["formattedAddress"],
             )
 
         # If the address has NO unconfirmed, inferred components or typos,
+        print(
+            "Address has no unconfirmed, inferred components or typos, returning PassResult"
+        )
         return PassResult()
 
     def validate(self, value: str, metadata: Dict[str, Any] = None) -> ValidationResult:
@@ -147,6 +159,7 @@ class IsValidAddress(Validator):
 
         # Strip the address of any leading/trailing whitespaces
         value = value.strip()
+        print("Validating address:", value)
 
         # Get the validation response from the API
         try:
