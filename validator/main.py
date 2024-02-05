@@ -15,7 +15,7 @@ except ImportError:
     googlemaps = None
 
 
-@register_validator(name="is-valid-address", data_type="string")
+@register_validator(name="guardrails/is-valid-address", data_type="string")
 class IsValidAddress(Validator):
     """
     **Key Properties**
