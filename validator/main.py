@@ -144,7 +144,7 @@ class IsValidAddress(Validator):
         )
         return PassResult()
 
-    def validate(self, value: str, metadata: Dict[str, Any] = None) -> ValidationResult:
+    def validate(self, value: str, metadata: Dict) -> ValidationResult:
         """Validate the address using Google Maps' Address Validation API.
 
         Query the API, get the response and process it to get the validation outcome.
@@ -163,7 +163,7 @@ class IsValidAddress(Validator):
 
         # Get the validation response from the API
         try:
-            validation_response = self._gmaps_client.addressvalidation(
+            validation_response = self._gmaps_client.addressvalidation(  # type: ignore
                 [value],
                 regionCode="US",
             )
