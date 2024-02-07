@@ -1,12 +1,12 @@
 from guardrails import Guard
 from pydantic import BaseModel, Field
-from validator import IsValidAddress
+from validator import ValidAddress
 import pytest
 
 
 # Create a pydantic model with a field that uses the custom validator
 class ValidatorTestObject(BaseModel):
-    address: str = Field(validators=[IsValidAddress(on_fail="exception")])
+    address: str = Field(validators=[ValidAddress(on_fail="exception")])
 
 
 # Test happy path

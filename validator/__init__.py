@@ -1,3 +1,3 @@
-from .main import IsValidAddress
+from .main import ValidAddress
 
-__all__ = ["IsValidAddress"]
+__all__ = ["ValidAddress"]

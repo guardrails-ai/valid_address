@@ -1,7 +1,7 @@
 [project]
-name = "isvalidaddress"
+name = "valid_address"
 version = "0.0.0"
-description = "Guardrails AI IsValidAddress validator"
+description = "Validates an LLM-generated address using Google Maps' Address Validation API."
 authors = [
     {name = "Guardrails AI", email = "contact@guardrailsai.com"}
 ]
