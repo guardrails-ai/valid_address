@@ -9,10 +9,7 @@ from guardrails.validator_base import (
     register_validator,
 )
 
-try:
-    import googlemaps
-except ImportError:
-    googlemaps = None
+import googlemaps
 
 
 @register_validator(name="guardrails/valid_address", data_type="string")
@@ -22,7 +19,7 @@ class ValidAddress(Validator):
 
     | Property                      | Description                               |
     | ----------------------------- | ----------------------------------------- |
-    | Name for `format` attribute   | `is-valid-address`                        |
+    | Name for `format` attribute   | `guardrails/valid_address`                |
     | Supported data types          | `string`                                  |
     | Programmatic fix              | formattedAddress from API if applicable   |
 
@@ -51,12 +48,6 @@ class ValidAddress(Validator):
             raise ValueError(
                 "GOOGLE_MAPS_API_KEY environment variable not found. "
                 "Please set the environment variable with your Google Maps API key."
-            )
-
-        if googlemaps is None:
-            raise ImportError(
-                "googlemaps package not found. "
-                "Please install the package using 'pip install -U googlemaps'"
             )
 
         # Initialize the Google Maps client

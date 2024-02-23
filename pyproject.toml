@@ -1,15 +1,15 @@
 [project]
 name = "valid_address"
 version = "0.0.0"
-description = "Validates an LLM-generated address using Google Maps' Address Validation API."
+description = "Verifies an LLM-generated address using Google Maps' Address Validation API."
 authors = [
     {name = "Guardrails AI", email = "contact@guardrailsai.com"}
 ]
 license = {file = "LICENSE"}
 readme = "README.md"
-requires-python = ">= 3.8"
+requires-python = ">= 3.8.1"
 dependencies = [
-    "guardrails-ai>=0.3.2",
+    "guardrails-ai>=0.4.0",
     "googlemaps"
 ]
 
