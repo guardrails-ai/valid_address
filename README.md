@@ -61,7 +61,12 @@ except Exception as e:
 ```
 Output:
 ```console
+Validating address: 1 Hacker Way, Menlo Park, CA
+Address has no unconfirmed, inferred components or typos, returning PassResult
 
+Validating address: 160 Amphetheetre Pkwy
+Address has important components inferred, returning FailResult with fix value: 160 Amphitheatre Parkway, Mountain View, CA 94043, USA
+Validation failed for field with errors: Address: '160 Amphetheetre Pkwy' has important components inferred
 ```
 
 
