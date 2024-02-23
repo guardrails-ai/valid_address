@@ -1,31 +1,100 @@
-# Guardrails Validator Template
-Template repository that hosts a sample validator to be used within GuardrailsHub.
+# ValidAddress
 
-## How to create a Guardrails Validator
-- On the top right of the page, click "Use this template", select "create a new repository"  and set a name for the package.
-- Modify the class in [validator/main.py](validator/main.py) with source code for the new validator
-    - Make sure that the class still inherits from `Validator` and has the `register_validator` annotation.
-    - Set the `name` in the `register_validator` to the name of the repo and set the appropriate data type.
-- Change [validator/__init__.py](validator/__init__.py) to your new Validator classname instead of RegexMatch
-- Locally test the validator with the test instructions below
+## Overview
 
-* Note: This package uses a pyproject.toml file, on first run, run `pip install .` to pull down and install all dependencies
+| Developed by | Guardrails AI |
+| --- | --- |
+| Date of development | Feb 15, 2024 |
+| Validator type | Format |
+| Blog | - |
+| License | Apache 2 |
+| Input/Output | Output |
 
-### Testing and using your validator
-- Open [test/test-validator.py](test/test-validator.py) to test your new validator 
-- Import your new validator and modify `ValidatorTestObject` accordingly
-- Modify the TEST_OUTPUT and TEST_FAIL_OUTPUT accordingly
-- Run `python test/test-validator.py` via terminal, make sure the returned output reflects the input object 
-- Write advanced tests for failures, etc.
+## Description
 
-## Upload your validator to the validator hub
-- Update the [pyproject.toml](pyproject.toml) file and make necessary changes as follows:
-    - Update the `name` field to the name of your validator
-    - Update the `description` field to a short description of your validator
-    - Update the `authors` field to your name and email
-    - Add/update the `dependencies` field to include all dependencies your validator needs.
-- If there are are any post-installation steps such as downloading tokenizers, logging into huggingface etc., update the [post-install.py](validator/post-install.py) file accordingly.
-- You can add additional files to the [validator](validator) directory, but don't rename any existing files/directories.
-    - e.g. Add any environment variables (without the values, just the keys) to the [.env](.env) file.
-- Ensure that there are no other dependencies or any additional steps required to run your validator.
-- Fill out this [form](https://forms.gle/nmxyKwzjypaqvWxbA) to get your new validator onboarded!
+This validator verifies whether an LLM-generated address of a place is valid using Google Maps' Address Validation API.
+
+## Requirements
+* Dependencies: `googlemaps`
+* API Key: Google Maps API Key
+    * Steps to get the API Key:
+        1. Go to the [Google Cloud Console](https://console.cloud.google.com/).
+        2. Click on the project dropdown and create a new project.
+        3. Go to the [APIs & Services](https://console.cloud.google.com/apis/dashboard) page.
+        4. Click on the "Enable APIs and Services" button.
+        5. Search for "Address Validation API" and enable it.
+        6. Head over to [Credentials](https://console.cloud.google.com/apis/credentials) page,
+            click on "Create credentials" and select "API key".
+        7. Copy the API key and set it as the environment variable `GOOGLE_MAPS_API_KEY` 
+        using the command `export GOOGLE_MAPS_API_KEY=<your_api_key>`.
+
+## Installation
+
+```bash
+guardrails hub install hub://guardrails/valid_address
+```
+
+## Usage Examples
+
+### Validating string output via Python
+
+In this example, we’ll use the validator to check if the output is a valid address.
+
+```python
+# Import Guard and Validator
+from guardrails.hub import ValidAddress
+from guardrails import Guard
+
+# Use the Guard with the validator
+guard = Guard().use(
+    ValidAddress, on_fail="exception"
+)
+
+# Test passing response
+guard.validate("1 Hacker Way, Menlo Park, CA")
+
+try:
+    # Test failing response
+    guard.validate("160 Amphetheetre Pkwy")
+except Exception as e:
+    print(e)
+```
+Output:
+```console
+
+```
+
+
+## API Reference
+
+**`__init__(self, on_fail="noop")`**
+<ul>
+
+Initializes a new instance of the Validator class.
+
+**Parameters:**
+
+- **`on_fail`** *(str, Callable):* The policy to enact when a validator fails. If `str`, must be one of `reask`, `fix`, `filter`, `refrain`, `noop`, `exception` or `fix_reask`. Otherwise, must be a function that is called when the validator fails.
+
+</ul>
+
+<br>
+
+**`__call__(self, value, metadata={}) → ValidationResult`**
+
+<ul>
+
+Validates the given `value` using the rules defined in this validator, relying on the `metadata` provided to customize the validation process. This method is automatically invoked by `guard.parse(...)`, ensuring the validation logic is applied to the input data.
+
+Note:
+
+1. This method should not be called directly by the user. Instead, invoke `guard.parse(...)` where this method will be called internally for each associated Validator.
+2. When invoking `guard.parse(...)`, ensure to pass the appropriate `metadata` dictionary that includes keys and values required by this validator. If `guard` is associated with multiple validators, combine all necessary metadata into a single dictionary.
+
+**Parameters:**
+
+- **`value`** *(Any):* The input value to validate.
+- **`metadata`** *(dict):* A dictionary containing metadata required for validation. No additional metadata keys are needed for this validator.
+
+</ul>
+
