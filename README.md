@@ -35,7 +35,7 @@ This validator verifies whether an LLM-generated address of a place is valid usi
 ## Installation
 
 ```bash
-guardrails hub install hub://guardrails/valid_address
+$ guardrails hub install hub://guardrails/valid_address
 ```
 
 ## Usage Examples
@@ -106,4 +106,3 @@ Note:
 - **`metadata`** *(dict):* A dictionary containing metadata required for validation. No additional metadata keys are needed for this validator.
 
 </ul>
-
