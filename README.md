@@ -3,19 +3,23 @@
 ## Overview
 
 | Developed by | Guardrails AI |
-| --- | --- |
 | Date of development | Feb 15, 2024 |
 | Validator type | Format |
-| Blog | - |
+| Blog |  |
 | License | Apache 2 |
 | Input/Output | Output |
 
 ## Description
 
+### Intended Use
 This validator verifies whether an LLM-generated address of a place is valid using Google Maps' Address Validation API.
 
-## Requirements
-* Dependencies: `googlemaps`
+### Requirements
+
+* Dependencies: 
+    - `googlemaps`
+    - guardrails-ai>=0.4.0
+
 * API Key: Google Maps API Key
     * Steps to get the API Key:
         1. Go to the [Google Cloud Console](https://console.cloud.google.com/).
@@ -31,7 +35,7 @@ This validator verifies whether an LLM-generated address of a place is valid usi
 ## Installation
 
 ```bash
-guardrails hub install hub://guardrails/valid_address
+$ guardrails hub install hub://guardrails/valid_address
 ```
 
 ## Usage Examples
@@ -70,7 +74,7 @@ Validation failed for field with errors: Address: '160 Amphetheetre Pkwy' has im
 ```
 
 
-## API Reference
+# API Reference
 
 **`__init__(self, on_fail="noop")`**
 <ul>
@@ -102,4 +106,3 @@ Note:
 - **`metadata`** *(dict):* A dictionary containing metadata required for validation. No additional metadata keys are needed for this validator.
 
 </ul>
-
